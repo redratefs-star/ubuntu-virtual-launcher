@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                 putExtra("com.termux.RUN_COMMAND_PATH", command)
                 putExtra("com.termux.RUN_COMMAND_ARGUMENTS",
                     if (action == "terminal") arrayOf("-l") else arrayOf("-lc", script))
-                putExtra("com.termux.RUN_COMMAND_WORKDIR", "\$HOME")
+                putExtra("com.termux.RUN_COMMAND_WORKDIR", "/data/data/com.termux/files/home")
                 putExtra("com.termux.RUN_COMMAND_BACKGROUND", false)
             }
             if (checkSelfPermission(termuxRunPermission) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
