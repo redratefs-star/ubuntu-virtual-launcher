@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <queries>
         <package android:name="com.roblox.client" />
@@ -14,6 +16,12 @@
         android:label="Virtus OS"
         android:theme="@android:style/Theme.Material.NoActionBar"
         android:supportsRtl="true">
+
+     <service
+        android:name=".UVLServerService"
+        android:enabled="true"
+        android:exported="false"
+        android:foregroundServiceType="dataSync" />
 
         <activity
             android:name=".MainActivity"
