@@ -67,5 +67,9 @@ dependencies {
 
     debugImplementation(
         "androidx.compose.ui:ui-tooling"
+
+    implementation(
+        "org.nanohttpd:nanohttpd:2.3.1"
     )
+    
 }
