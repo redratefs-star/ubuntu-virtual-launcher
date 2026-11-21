@@ -1,0 +1,108 @@
+package com.uvl.launcher
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cloud
+import androidx.compose.material.icons.filled.PowerSettingsNew
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+
+@Composable
+fun UVLServerPanel() {
+
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    var running by remember {
+        mutableStateOf(ServerEngine.isRunning)
+    }
+
+    var message by remember {
+        mutableStateOf(ServerEngine.lastError)
+    }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            running = ServerEngine.isRunning
+            message = ServerEngine.lastError
+            delay(1000)
+        }
+    }
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = androidx.compose.ui.graphics.Color(
+                0xFF151D30
+            )
+        )
+    ) {
+        Column(
+            modifier = Modifier.padding(18.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+
+            Icon(
+                Icons.Default.Cloud,
+                contentDescription = null
+            )
+
+            Text(
+                "UVL SERVER MANAGER",
+                style = MaterialTheme.typography.titleLarge
+            )
+
+            Text(
+                "Local Virtual Server"
+            )
+
+            Text(
+                "Status: $message"
+            )
+
+            Text(
+                "Alamat: ${ServerEngine.getAddress()}"
+            )
+
+            Button(
+                onClick = {
+                    ServerEngine.start(context)
+                },
+                enabled = !running,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Icon(
+                    Icons.Default.PowerSettingsNew,
+                    contentDescription = null
+                )
+
+                Spacer(Modifier.width(8.dp))
+
+                Text("START VIRTUAL COMPUTER")
+            }
+
+            OutlinedButton(
+                onClick = {
+                    ServerEngine.stop(context)
+                },
+                enabled = running,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("STOP SERVER")
+            }
+
+            Text(
+                if (running) {
+                    "UVL Server Engine aktif."
+                } else {
+                    "Server belum aktif."
+                },
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
+}
